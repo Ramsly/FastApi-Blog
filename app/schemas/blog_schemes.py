@@ -2,14 +2,14 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class RequestBlog(BaseModel):
+class RequestBlogScheme(BaseModel):
     title: str
     content: str
     created_at: datetime
     visible: bool = True
 
 
-class ResponseBlog(BaseModel):
+class ResponseBlogScheme(BaseModel):
     id: int
     title: str
     content: str
