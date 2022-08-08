@@ -15,7 +15,7 @@ class User(Base):
     created_at = Column(DateTime, default=func.now())
     last_login = Column(DateTime, nullable=True)
 
-    blogs = relationship('Blog')
+    blogs = relationship('Blog', cascade='')
 
 
 class Blog(Base):
