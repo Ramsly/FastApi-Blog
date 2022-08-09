@@ -5,11 +5,11 @@ from db.database import Base
 
 def check_item_exist(item: Base) -> None:
     """
-    Check if item exist in database
+    Check if item exist in database.
 
     :param Base item: Gotten classes instance of Base
     :return: None
-    :rtype: Base
+    :rtype: None
     """
     if not item:
         raise HTTPException(

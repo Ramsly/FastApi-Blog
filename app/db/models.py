@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
+from sqlalchemy import Column, Integer, Boolean, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -25,6 +25,7 @@ class Blog(Base):
     title = Column(String(50))
     content = Column(String(150))
     created_at = Column(DateTime, default=func.now())
+    visible = Column(Boolean, default=True)
 
 
 class Like(Base):
