@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
 from ..depends import get_db
@@ -21,6 +22,12 @@ async def create_blog_router(data: RequestBlogScheme, db: Session = Depends(get_
 
 
 @router.get('/all', response_model=list[ResponseBlogScheme])
-async def get_all_blogs(data: RequestBlogScheme, db: Session = Depends(get_db)):
+async def get_all_blogs(db: Session = Depends(get_db)):
     return get_blogs(db)
 
+
+@router.get('/get/{blog_id}', response_model=ResponseBlogScheme)
+async def get_one_blog(blog_id: int, db: Session = Depends(get_db)):
+    blog = get_blog(db, blog_id)
+    if not blog:
+        raise HTTPException(detail='Blog was not found', status_code=404)

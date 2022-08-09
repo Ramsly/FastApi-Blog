@@ -1,6 +1,6 @@
 from fastapi.exceptions import HTTPException
 
-from db.database import Base
+from .db.database import Base
 
 
 def check_item_exist(item: Base) -> None:

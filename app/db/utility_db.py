@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from database import Base
+from .database import Base
 
 
 def add_db_data(db: Session, db_item: Base) -> Base:
