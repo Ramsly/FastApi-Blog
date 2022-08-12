@@ -6,10 +6,8 @@ class RequestLikesScheme(BaseModel):
     user_id: int
 
 
-class ResponseLikeScheme(BaseModel):
+class ResponseLikeScheme(RequestLikesScheme):
     id: int
-    post_id: int
-    user_id: int
 
     class Config:
         orm_mode = True

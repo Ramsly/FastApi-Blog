@@ -8,11 +8,8 @@ class RequestCommentSchema(BaseModel):
     user_id: int
 
 
-class ResponseCommentSchema(BaseModel):
+class ResponseCommentSchema(RequestCommentSchema):
     id: int
-    content: int
-    post_id: int
-    user_id: int
     created_at: datetime
 
     class Config:

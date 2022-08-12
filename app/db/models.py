@@ -10,8 +10,10 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), unique=True)
     email = Column(String(50), unique=True)
-    f_name = Column(String(50))
-    l_name = Column(String(50))
+    password = Column(String)
+    f_name = Column(String(50), default="")
+    l_name = Column(String(50), default="")
+    disabled = Column(Boolean, default=False)
     created_at = Column(DateTime, default=func.now())
     last_login = Column(DateTime, nullable=True)
 

@@ -1,12 +1,14 @@
 from sqlalchemy.orm import Session
 
+
 from ..models import Comment
 from ..utility_db import add_db_data
 from ...exceptions import check_item_exist
+from ...schemas.comment_schemes import RequestCommentSchema
 
 
-def create_comment(db: Session, user_id: int, post_id: int, content: str) -> Comment:
-    db_comment = Comment(user_id=user_id, post_id=post_id, content=content)
+def create_comment(db: Session, comment: RequestCommentSchema) -> Comment:
+    db_comment = Comment(user_id=comment.user_id, post_id=comment.post_id, content=comment.content)
     return add_db_data(db, db_comment)
 
 
