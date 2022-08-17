@@ -13,6 +13,6 @@ def check_item_exist(item: Base) -> None:
     """
     if not item:
         raise HTTPException(
-            detail='Comment does not exist',
+            detail='Item does not exist',
             status_code=404
         )

@@ -1,15 +1,14 @@
 from sqlalchemy.orm import Session
 
-from pydantic import EmailStr
-
 from ..models import User
 from ..utility_db import add_db_data
 from ...exceptions import check_item_exist
 from ...schemas.user_schemes import RequestUser
+from ...security import get_password_hash
 
 
 def create_user(db: Session, user: RequestUser) -> User:
-    db_user = User(username=user.username, email=user.email, password=user.password)
+    db_user = User(username=user.username, email=user.email, password=get_password_hash(password=user.password))
     return add_db_data(db, db_user)
 
 
@@ -38,8 +37,8 @@ def update_disable_user(db: Session, username: str) -> User:
     return add_db_data(db, db_user)
 
 
-def delete_user(db: Session, email: EmailStr) -> None:
-    db_user = get_user_by_username(db, email)
+def delete_user(db: Session, username: str) -> None:
+    db_user = get_user_by_username(db, username)
     check_item_exist(db_user)
     db.delete(db_user)
     db.commit()

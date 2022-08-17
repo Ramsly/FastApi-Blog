@@ -8,12 +8,12 @@ class RequestUser(BaseModel):
     username: str
     email: EmailStr
     password: str
-    disabled: bool
+    disabled: bool = False
 
 
 class ResponseUser(RequestUser):
     id: int
-    last_login: datetime
+    last_login: datetime = None
     created_at: datetime
 
     class Config:

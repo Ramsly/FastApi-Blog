@@ -10,7 +10,7 @@ class RequestCommentSchema(BaseModel):
 
 class ResponseCommentSchema(RequestCommentSchema):
     id: int
-    created_at: datetime
+    created_at: datetime = None
 
     class Config:
         orm_mode = True

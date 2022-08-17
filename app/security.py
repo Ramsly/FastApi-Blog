@@ -1,20 +1,19 @@
 import os
-from dotenv import load_dotenv
+import app
+
 from datetime import datetime, timedelta
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 
 from sqlalchemy.orm import Session
 
-from .db.crud.user_cruds import get_user_by_username
 from .schemas.user_schemes import RequestUser
 from .schemas.token_schemes import TokenData
-
-load_dotenv()
+from .depends import get_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -29,11 +28,11 @@ def get_password_hash(password: str):
     return pwd_context.hash(password)
 
 
-def authenticate_user(db: Session, username: str, password: str):
-    user = get_user_by_username(db, username)
+def authenticate_user(username: str, password: str, db: Session = Depends(get_db)):
+    user = app.db.crud.user_cruds.get_user_by_username(db=db, username=username)
     if not user:
         return False
-    if not verify_password(password, user.password):
+    if not verify_password(plain_password=password, hashed_password=user.password):
         return False
     return user
 
@@ -49,7 +48,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def get_current_user(db: Session, token: str = Depends(oauth2_scheme)):
+async def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -63,7 +62,7 @@ async def get_current_user(db: Session, token: str = Depends(oauth2_scheme)):
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = get_user_by_username(db, username=token_data.username)
+    user = app.db.crud.user_cruds.get_user_by_username(db=db, username=token_data.username)
     if user is None:
         raise credentials_exception
     return user

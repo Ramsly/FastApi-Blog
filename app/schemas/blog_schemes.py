@@ -4,8 +4,9 @@ from pydantic import BaseModel
 
 class RequestBlogScheme(BaseModel):
     title: str
-    content: str
-    created_at: datetime
+    owner_id: int
+    content: str | None = None
+    created_at: datetime = None
     visible: bool = True
 
 
@@ -13,8 +14,8 @@ class ResponseBlogScheme(BaseModel):
     id: int
     title: str
     content: str
-    created_at: datetime
-    updated_at: datetime
+    created_at: datetime = None
+    updated_at: datetime = None
 
     class Config:
         orm_mode = True
