@@ -31,8 +31,8 @@ async def get_one_blog(blog_id: int, db: Session = Depends(get_db)):
 
 
 @router.put('/{blog_id}', response_model=ResponseBlogScheme)
-async def update_one_blog(blog_id: int, title: str, content: str, db: Session = Depends(get_db)):
-    return update_blog(db, blog_id=blog_id, title=title, content=content)
+async def update_one_blog(blog_id: int, data: RequestBlogScheme, db: Session = Depends(get_db)):
+    return update_blog(db, blog_id=blog_id, title=data.title, content=data.content)
 
 
 @router.delete('/{blog_id}')
