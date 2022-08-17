@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Path
 from sqlalchemy.orm import Session
 
 from ..depends import get_db
@@ -21,7 +21,8 @@ async def create_one_user(user: RequestUser, db: Session = Depends(get_db)):
 
 
 @router.get("/get/{user_username}", response_model=ResponseUser)
-async def get_one_user(user_username: str, db: Session = Depends(get_db)):
+async def get_one_user(user_username: str = Path(default=None, description="Update like by username"),
+                       db: Session = Depends(get_db)):
     return get_user_by_username(db, username=user_username)
 
 
@@ -36,10 +37,13 @@ async def get_all_users(db: Session = Depends(get_db)):
 
 
 @router.delete('/delete/{user_username}', response_model=ResponseUser)
-async def delete_one_user(user_username: str, db: Session = Depends(get_db)):
+async def delete_one_user(user_username: str = Path(default=None, description="Update like by username"),
+                          db: Session = Depends(get_db)):
     return delete_user(db, username=user_username)
 
 
 @router.put('/update/{user_username}', response_model=ResponseUser)
-async def update_one_user(user_username: str, user: RequestUser, db: Session = Depends(get_db)):
+async def update_one_user(user: RequestUser,
+                          user_username: str = Path(default=None, description="Update like by username"),
+                          db: Session = Depends(get_db)):
     return update_user(db, username=user_username, user=user)
