@@ -12,7 +12,7 @@ class RequestUser(BaseModel):
 
 
 class ResponseUser(RequestUser):
-    id: int = Field(default=1, title="ID of user")
+    id: int = Field(default=1, ge=0, title="ID of user")
     last_login: datetime = Field(default=None, title="Time of last login")
     created_at: datetime = Field(default=None, title="Time of created user")
 
