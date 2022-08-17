@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Path
 from sqlalchemy.orm import Session
 
 from ..depends import get_db
@@ -20,7 +20,7 @@ async def get_all_likes(db: Session = Depends(get_db)):
 
 
 @router.get('/{like_id}', response_model=ResponseLikeScheme)
-async def get_one_like(like_id: int, db: Session = Depends(get_db)):
+async def get_one_like(like_id: int = Path(default=0, ge=0), db: Session = Depends(get_db)):
     return get_like(db, like_id)
 
 
