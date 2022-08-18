@@ -25,20 +25,20 @@ async def get_all_blogs(db: Session = Depends(get_db)):
     return get_blogs(db)
 
 
-@router.get('/{blog_id}', response_model=ResponseBlogScheme)
+@router.get('/get/{blog_id}', response_model=ResponseBlogScheme)
 async def get_one_blog(blog_id: int = Path(default=None, gt=0, description="Get blog by ID"),
                        db: Session = Depends(get_db)):
     return get_blog(db, blog_id=blog_id)
 
 
-@router.put('/{blog_id}', response_model=ResponseBlogScheme)
+@router.put('/put/{blog_id}', response_model=ResponseBlogScheme)
 async def update_one_blog(data: RequestBlogScheme,
                           blog_id: int = Path(default=None, gt=0, description="Update blog by ID"),
                           db: Session = Depends(get_db)):
     return update_blog(db, blog_id=blog_id, title=data.title, content=data.content)
 
 
-@router.delete('/{blog_id}')
+@router.delete('/delete/{blog_id}')
 async def delete_one_blog(blog_id: int = Path(default=None, gt=0, description="Delete blog by ID"),
                           db: Session = Depends(get_db)):
     return delete_blog(db, blog_id=blog_id)

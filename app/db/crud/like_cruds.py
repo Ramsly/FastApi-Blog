@@ -23,7 +23,7 @@ def update_like(db: Session, like_id: int, post_id: int, user_id: int) -> Like:
     check_item_exist(db_like)
     db_like.post_id = post_id
     db_like.user_id = user_id
-    return add_db_data(db_like)
+    return add_db_data(db, db_like)
 
 
 def delete_like(db: Session, like_id: int) -> None:
