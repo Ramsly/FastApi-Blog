@@ -6,7 +6,7 @@ from datetime import datetime
 client = TestClient(app)
 
 
-def test_create_first_blog():
+def test_create_blog():
     response = client.post('/blog/create', json={
             "id": 1,
             "title": "First",
@@ -18,36 +18,6 @@ def test_create_first_blog():
     data = response.json()
     assert data["title"] == "First"
     assert data["content"] == "text"
-    assert 'id' in data
-
-
-def test_create_second_blog():
-    response = client.post('/blog/create', json={
-            "id": 2,
-            "title": "Second",
-            "content": "second_text",
-            "created_at": datetime.now().isoformat(),
-            "updated_at": datetime.now().isoformat()
-        })
-    assert response.status_code == 200, response.text
-    data = response.json()
-    assert data["title"] == "Second"
-    assert data["content"] == "second_text"
-    assert 'id' in data
-
-
-def test_create_third_blog():
-    response = client.post('/blog/create', json={
-            "id": 3,
-            "title": "Third",
-            "content": "third_text",
-            "created_at": datetime.now().isoformat(),
-            "updated_at": datetime.now().isoformat()
-        })
-    assert response.status_code == 200, response.text
-    data = response.json()
-    assert data["title"] == "Third"
-    assert data["content"] == "third_text"
     assert 'id' in data
 
 
